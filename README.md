@@ -28,9 +28,13 @@ STEP 16: At the particular time call the finish procedure.
 STEP 17: Stop the program.
 
 # PROGRAM:
+```
+#Create a simulator object 
 
+set ns [new Simulator]
+#Open the nam trace file 
 
-#Create a simulator object set ns [new Simulator] #Open the nam trace file set nf [open out.nam w]
+set nf [open out.nam w]
 $ns namtrace-all $nf #Define a 'finish' procedure proc finish {}
 {
 global ns nf
@@ -38,6 +42,7 @@ $ns flush-trace close $nf
 #Execute nam on the trace file exec nam out.nam &
 exit 0
 }
+
 #Create five nodes set n0 [$ns node] set n1 [$ns node] set n2 [$ns node] set n3 [$ns node] set n4 [$ns node]
 #Create Lan between the nodes
 set lan0 [$ns newLan "$n0 $n1 $n2 $n3 $n4" 0.5Mb 40ms LL Queue/DropTail MAC/Csma/Cd Channel] #Create a TCP agent and attach it to node n0
@@ -48,7 +53,9 @@ $ns attach-agent $n1 $tcp0
 $ns attach-agent $n3 $sink0
 #Connect the traffic sources with the traffic sink
 $ns connect $tcp0 $sink0
+```
 # Create a CBR traffic source and attach it to tcp0 set cbr0 [new Application/Traffic/CBR]
+```
 $cbr0 set packetSize_ 500
 $cbr0 set interval_ 0.01
 $cbr0 attach-agent $tcp0
@@ -58,8 +65,10 @@ $ns at 4.5 "$cbr0 stop"
 #Call the finish procedure after 5 seconds of simulation time
 $ns at 5.0 "finish"
 $ns run
- 
+ ```
 # OUTPUT
+<img width="680" height="430" alt="image" src="https://github.com/user-attachments/assets/3866bc6f-87f9-489f-b912-7f08eeab1ee7" />
+
 
 
 # RESULT
